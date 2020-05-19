@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state: {
     drawer: {
-      displayed: true,
+      displayed: null,
       mini: true
     }
   },
@@ -17,6 +17,9 @@ export default {
     },
     [Layout.setDrawerMini] (state, mini) {
       state.drawer.mini = mini
+    },
+    [Layout.setDrawer] (state, displayed) {
+      state.drawer.displayed = displayed
     }
   },
   actions: {
@@ -25,6 +28,9 @@ export default {
     },
     [Layout.toggleDrawerMini] ({ commit }) {
       commit(Layout.toggleDrawerMini)
+    },
+    [Layout.setDrawer] ({ commit }, displayed) {
+      commit(Layout.setDrawer, displayed)
     },
     [Layout.setDrawerMini] ({ commit }, mini) {
       commit(Layout.setDrawerMini, mini)

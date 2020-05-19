@@ -1,19 +1,21 @@
 <template>
   <v-app id="inspire" dark>
-    <NavigationDrawer />
-    <Navbar />
+    <NavigationDrawer v-if="!untouched" />
+    <Navbar v-if="!untouched" />
     <v-content>
       <router-view></router-view>
     </v-content>
     <v-footer app class="justify-center">
-      <span>&copy; {{ fullYear }}</span>
+      <span>CCM-GUI &copy; {{ fullYear }}</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Navbar from '@/components/layout/Navbar'
 import NavigationDrawer from '@/components/layout/NavigationDrawer'
+import { Routes } from '@/constants/router'
 
 export default {
   name: 'App',
@@ -22,7 +24,11 @@ export default {
     Navbar
   },
   data: () => ({
-    fullYear: new Date().getFullYear()
-  })
+    fullYear: new Date().getFullYear(),
+    configRoute: Routes.config
+  }),
+  computed: {
+    ...mapGetters(['untouched'])
+  }
 }
 </script>
