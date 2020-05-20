@@ -1,6 +1,7 @@
 <template>
   <v-container fluid>
     <Breadcrumbs :path="breadcrumbsPath" back two-lines>
+      <v-switch color="primary lighten-1" v-model="autoScroll" label="Auto Scroll" class="d-inline-flex mr-4" />
       <v-btn
         tile
         depressed
@@ -71,11 +72,15 @@
     <InformationTile v-else-if="envList.length === 0" class="text-center">No resource</InformationTile>
 
     <!-- RESOURCES CARDS -->
-    <v-row v-else justify="start">
-      <v-col cols="4" v-for="(env, index) in envList" :key="index">
-        <EnvResourcesCard :env="env" :resources="resources[env]"/>
-      </v-col>
-    </v-row>
+    <template v-else>
+      <v-fade-transition group tag="div" class="row">
+      <!--<v-row>-->
+        <v-col cols="12" lg="6" md="6" v-for="env in envList" :key="env.env">
+          <EnvResourcesCard :auto-scroll="autoScroll" :id="profile.id" :env="env" />
+        </v-col>
+      <!--</v-row>-->
+      </v-fade-transition>
+    </template>
   </v-container>
 </template>
 
@@ -108,6 +113,7 @@ export default {
     profilesStyle: ProfilesStyle,
     profileLoading: true,
     resourcesLoading: true,
+    autoScroll: false,
     profileMeta: {
       loading: true,
       reqError: false,
@@ -154,12 +160,12 @@ export default {
       return this.profiles.find(p => p.id === this.$route.params.id)
     },
     resources () {
-      const profile = this.allResources.find(s => s.id === this.$route.params.id)
-      return (profile ? profile.resources : null)
+      const resourcesData = this.allResources.find(s => s.id === this.$route.params.id)
+      return (resourcesData ? resourcesData.resourcesEnv : null)
     },
     envList () {
       if (!this.resources) return []
-      return Object.keys(this.resources).sort()
+      return this.resources
     },
     breadcrumbsPath () {
       if (this.$vuetify.breakpoint.smAndDown) return ['Profiles', (this.profile ? this.profile.name : '...')]
@@ -170,5 +176,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

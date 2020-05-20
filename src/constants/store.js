@@ -35,5 +35,7 @@ export const Profiles = {
 }
 
 export const Resources = {
-  fetchAll: 'fetchAll'
+  fetchAll: 'fetchAll',
+  createOne: 'createOne',
+  deleteOne: 'deleteOne'
 }

@@ -1,6 +1,6 @@
 <template>
   <v-row justify="start" align="center">
-    <v-col cols="auto">
+    <v-col cols="auto" class="d-flex align-center">
       <template v-for="(item, index) in items">
         <span v-if="item.type === 'path'" :key="index" :class="responsiveDisplay">{{ item.value }}</span>
         <span v-else :key="index" :class="[responsiveDisplay, {'mx-2': $vuetify.breakpoint.mdAndUp}]">
@@ -9,7 +9,7 @@
       </template>
     </v-col>
     <v-spacer></v-spacer>
-    <v-col :cols="twoLines ? 12 : 'auto'" md="auto">
+    <v-col :cols="twoLines ? 12 : 'auto'" md="auto"  class="d-flex align-center">
       <slot></slot>
       <v-btn v-if="back" class="ml-4" color="accent" @click.stop="$router.back()">
         <span class="d-none d-md-flex">Back</span>
