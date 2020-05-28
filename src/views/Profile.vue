@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <Breadcrumbs :path="breadcrumbsPath" back two-lines>
-      <v-switch color="primary lighten-1" v-model="autoScroll" label="Auto Scroll" class="d-inline-flex mr-4" />
+      <v-switch color="primary lighten-1" v-model="autoScroll" label="Auto Scroll" class="d-inline-flex mr-4"/>
       <v-btn
         tile
         depressed
@@ -30,7 +30,8 @@
         </v-list>
       </v-menu>
     </Breadcrumbs>
-    <v-row>
+
+    <v-row class="mb-4">
       <InformationsSection
         :loading="profileLoading"
         :profile="profile"
@@ -44,60 +45,32 @@
       />
     </v-row>
 
-    <!-- RESOURCES TITLE -->
-    <v-row><v-col>
-      <InformationTile
-        :prepend-icon="resourcesMeta.reqError ? 'mdi-lock' : null"
-        title="Resources"
-        :color="resourcesMeta.error ? 'red' : null"
-      />
-    </v-col></v-row>
+    <!-- RESOURCES SECTION -->
+    <ResourcesSection
+      :loading="resourcesMeta.loading"
+      :reqError="resourcesMeta.reqError"
+      :error="resourcesMeta.error"
+      :auto-scroll="autoScroll"
+      :env-list="envList"
+      :profile="profile"
+    />
 
-    <!-- SKELETON RESOURCES -->
-    <v-row v-if="resourcesMeta.loading">
-      <v-col cols="4" v-for="n in 3" :key="n">
-        <v-sheet class="pa-2">
-          <v-row><v-col><v-skeleton-loader type="text" /></v-col></v-row>
-          <v-row><v-col v-for="n in 2" :key="n"><v-skeleton-loader type="heading"/></v-col></v-row>
-          <v-row v-for="n in 4" :key="n"><v-col v-for="n in 2" :key="n"><v-skeleton-loader type="text"/></v-col></v-row>
-        </v-sheet>
-
-      </v-col>
-    </v-row>
-
-    <!-- ERROR -->
-    <InformationTile v-else-if="resourcesMeta.reqError" center>{{ resourcesMeta.error }}</InformationTile>
-
-    <!-- NO RESOURCE -->
-    <InformationTile v-else-if="envList.length === 0" class="text-center">No resource</InformationTile>
-
-    <!-- RESOURCES CARDS -->
-    <template v-else>
-      <v-fade-transition group tag="div" class="row">
-      <!--<v-row>-->
-        <v-col cols="12" lg="6" md="6" v-for="env in envList" :key="env.env">
-          <EnvResourcesCard :auto-scroll="autoScroll" :id="profile.id" :env="env" />
-        </v-col>
-      <!--</v-row>-->
-      </v-fade-transition>
-    </template>
   </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Breadcrumbs from '@/components/Breadcrumbs'
-import EnvResourcesCard from '@/views/Profile/EnvResourcesCard'
-import InformationTile from '@/views/Profile/InformationTile'
 import { Profiles, Resources } from '@/constants/store'
 import { ProfilesStyle } from '@/constants/style'
 import { RefreshTypes } from '@/constants/profile'
 import InformationsSection from '@/views/Profile/InformationsSection'
 import RolesSection from '@/views/Profile/RolesSection'
+import ResourcesSection from '@/views/Profile/ResourcesSection'
 
 export default {
   name: 'Profile',
-  components: { RolesSection, InformationsSection, InformationTile, EnvResourcesCard, Breadcrumbs },
+  components: { ResourcesSection, RolesSection, InformationsSection, Breadcrumbs },
   mounted () {
     if (this.profile) this.profileLoading = false
     else this.loadProfile()
@@ -140,7 +113,9 @@ export default {
       }
     },
     loadProfile () {
-      this.fetchProfile(this.$route.params.id).then(() => { this.profileLoading = false })
+      this.fetchProfile(this.$route.params.id).then(() => {
+        this.profileLoading = false
+      })
     },
     loadResources () {
       this.fetchResources(this.$route.params.id)
@@ -150,7 +125,9 @@ export default {
             this.resourcesMeta.error = 'Unauthorized to access resources of this profile.'
           } else this.resourcesMeta.error = e
         })
-        .finally(() => { this.resourcesMeta.loading = false })
+        .finally(() => {
+          this.resourcesMeta.loading = false
+        })
     }
   },
   computed: {

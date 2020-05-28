@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire" dark>
-    <NavigationDrawer v-if="!untouched" />
+    <!-- <NavigationDrawer v-if="false" /> -->
     <Navbar v-if="!untouched" />
     <v-content>
       <router-view></router-view>
@@ -14,13 +14,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import Navbar from '@/components/layout/Navbar'
-import NavigationDrawer from '@/components/layout/NavigationDrawer'
+// import NavigationDrawer from '@/components/layout/NavigationDrawer'
 import { Routes } from '@/constants/router'
 
 export default {
   name: 'App',
   components: {
-    NavigationDrawer,
+    // NavigationDrawer,
     Navbar
   },
   data: () => ({

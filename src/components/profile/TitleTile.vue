@@ -1,5 +1,5 @@
 <template>
-    <v-sheet :color="sheetColor" class="my-1" :class="title ? 'py-0' : 'py-2 px-4'">
+    <v-sheet :color="sheetColor" class="my-1" :class="title ? 'py-0' : 'py-2 px-4'" tile>
       <p
         v-if="title"
         class="my-0 text-center d-flex align-center justify-center"

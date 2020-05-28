@@ -8,6 +8,7 @@
   >
     <template v-slot:activator="{ on }">
       <v-btn
+        tile
         :text="notifications.length === 0"
         :outlined="notifications.length > 0"
         :icon="notifications.length === 0"
@@ -20,9 +21,9 @@
     </template>
     <v-card>
       <v-card-text>
-        <p v-if="notifications.length" class="subtitle-1 mb-0">
+        <p v-if="notifications.length" class="subtitle-1 mb-0 white--text">
           {{ notifications.length }} notification{{ notifications.length > 1 ? 's' : '' }}
-          <v-btn class="float-right" color="red lighten-2" text @click="clearNotifications">
+          <v-btn tile class="float-right" color="red lighten-2" text @click="clearNotifications">
             <v-icon left>mdi-trash-can-outline</v-icon>
             clear
           </v-btn>
@@ -31,6 +32,7 @@
         <p v-if="notifications.length" class="mt-4">
           <v-fade-transition group>
             <v-alert
+              outlined
               v-for="notification in notifications"
               :key="notification.id"
               tile
@@ -40,9 +42,9 @@
               :icon="notification.icon"
               dismissible
               @input="deleteNotification(notification.id)"
-              class="body-2"
+              class="body-2 py-1"
             >
-              {{ notification.text }}
+              <span class="white--text">{{ notification.text }}</span>
             </v-alert>
           </v-fade-transition>
         </p>

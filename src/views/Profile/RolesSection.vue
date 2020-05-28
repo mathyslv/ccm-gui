@@ -17,12 +17,12 @@
     <InformationTile v-else-if="profile.roles.length === 0" class="text-center">No role</InformationTile>
 
     <!-- ROLES CARDS -->
-    <v-sheet v-else class="py-2 px-4">
+    <v-sheet v-else class="py-2 px-4" tile>
         <v-simple-table>
           <thead>
           <tr>
-            <th class="caption">Name</th>
-            <th class="caption">Value</th>
+            <th class="body-2">Name</th>
+            <th class="body-2">Value</th>
           </tr>
           </thead>
           <tbody>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import InformationTile from '@/views/Profile/InformationTile'
+import InformationTile from '@/components/profile/TitleTile'
 
 export default {
   name: 'RolesSection',
@@ -65,6 +65,30 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  $hover-color: #454545;
+  .v-application {
+    thead {
+      tr {
+        background-color: #454545 !important;
+        th {
+          font-size: 1rem !important;
+          color: white !important;
+          padding-top: 0;
+          padding-bottom: 0;
+          height: 36px !important;
+        }
+      }
+    }
+    tr {
+      &:hover {
+        background-color: $hover-color !important;
+      }
+      & > th,
+      & > td {
+        border-bottom: none !important;
+        height: 36px !important;
+      }
+    }
+  }
 </style>

@@ -1,5 +1,11 @@
 <template>
-  <v-card raised :loading="loading || ownLoading" @click="viewProfile" :disabled="!!loading || !!ownLoading">
+  <v-card
+    raised
+    :loading="loading || ownLoading"
+    @click="viewProfile"
+    :disabled="!!loading || !!ownLoading"
+    tile
+  >
     <v-card-text>
       <p class="display-1 white--text">
         {{ profile.name }}
@@ -18,14 +24,14 @@
       </p>
     </v-card-text>
     <v-card-actions>
-      <v-btn icon large text color="error" @click.stop="$emit('delete')">
+      <v-btn icon large text color="error" @click.stop="$emit('delete')" tile>
         <v-icon>mdi-trash-can-outline</v-icon>
       </v-btn>
       <v-spacer/>
-      <v-btn icon large text :color="profilesStyle.Colors.Superadmin" @click.stop="getProfileToken">
+      <v-btn icon large text :color="profilesStyle.Colors.Superadmin" @click.stop="getProfileToken" tile>
         <v-icon>mdi-account-key</v-icon>
       </v-btn>
-      <v-btn icon large text color="accent lighten-2" @click.stop="editProfile">
+      <v-btn icon large text color="accent lighten-2" @click.stop="editProfile" tile>
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </v-card-actions>
@@ -35,16 +41,19 @@
           {{tokenDialog.token}}
         </v-card-title>
         <v-card-actions>
-          <v-btn color="green lighten-1" text
-                 :disabled="tokenDialog.copyButtonPressed"
-                 @click="tokenCopied"
-                 :id="'copy-generated-token-' + profile.id"
-                 :data-clipboard-target="'#generated-token-' + profile.id">
+          <v-btn
+            color="green lighten-1"
+            tile
+            text
+            :disabled="tokenDialog.copyButtonPressed"
+            @click="tokenCopied"
+            :id="'copy-generated-token-' + profile.id"
+            :data-clipboard-target="'#generated-token-' + profile.id">
             {{ tokenDialog.copyButtonPressed ? 'Copied' : 'Copy' }}
             <v-icon right>{{ tokenDialog.copyButtonPressed ? 'mdi-check' : 'mdi-content-copy' }}</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="dark" text @click="tokenDialog.show = false">Close</v-btn>
+          <v-btn color="dark" text @click="tokenDialog.show = false" tile>Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -114,7 +123,9 @@ export default {
     },
     tokenCopied () {
       this.tokenDialog.copyButtonPressed = true
-      setTimeout(function () { this.tokenDialog.copyButtonPressed = false }.bind(this), 2500)
+      setTimeout(function () {
+        this.tokenDialog.copyButtonPressed = false
+      }.bind(this), 2500)
     }
   },
   computed: {

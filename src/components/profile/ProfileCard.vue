@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card tile>
     <v-card-text class="white--text">
       <p class="display-1 d-flex align-center ma-0">
         {{ name }}

@@ -59,13 +59,19 @@ export default {
     [Resources.createOne] (state, { id, env, resource }) {
       const dataResourcesEnv = state.data.find(d => d.id === id).resourcesEnv
       if (!dataResourcesEnv) return
-      const dataEnv = dataResourcesEnv.find(re => re.env === env)
-      if (!dataEnv) return
-
-      const overrideIndex = dataEnv.resources.findIndex(r => r.key === resource.key)
-      if (overrideIndex !== -1) {
-        dataEnv.resources[overrideIndex] = resource
-      } else dataEnv.resources.push(resource)
+      let dataEnv = dataResourcesEnv.find(re => re.env === env)
+      if (!dataEnv) {
+        dataResourcesEnv.push({
+          env: resource.env,
+          resources: [resource]
+        })
+        dataEnv = dataResourcesEnv.find(re => re.env === env)
+      } else {
+        const overrideIndex = dataEnv.resources.findIndex(r => r.key === resource.key)
+        if (overrideIndex !== -1) {
+          dataEnv.resources[overrideIndex] = resource
+        } else dataEnv.resources.push(resource)
+      }
       mapExtendedResources(dataEnv, dataResourcesEnv)
     },
     [Resources.deleteOne] (state, { id, key, env }) {

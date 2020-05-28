@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="start" align="center">
+  <v-row justify="start" align="center" class="my-2">
     <v-col cols="auto" class="d-flex align-center">
       <template v-for="(item, index) in items">
         <span v-if="item.type === 'path'" :key="index" :class="responsiveDisplay">{{ item.value }}</span>
@@ -11,7 +11,7 @@
     <v-spacer></v-spacer>
     <v-col :cols="twoLines ? 12 : 'auto'" md="auto"  class="d-flex align-center">
       <slot></slot>
-      <v-btn v-if="back" class="ml-4" color="accent" @click.stop="$router.back()">
+      <v-btn v-if="back" class="ml-4" color="grey darken-3" @click.stop="$router.back()" tile>
         <span class="d-none d-md-flex">Back</span>
         <v-icon :right="$vuetify.breakpoint.mdAndUp">mdi-keyboard-return</v-icon>
       </v-btn>

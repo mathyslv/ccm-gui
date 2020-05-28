@@ -1,11 +1,11 @@
 <template>
   <v-container fluid>
     <Breadcrumbs :path="['Profiles']">
-      <v-btn color="primary" @click="loadData(true)" :loading="loading">
+      <v-btn color="primary" @click="loadData(true)" :loading="loading" tile>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-refresh</v-icon>
         <span class="d-none d-md-flex">Refresh data</span>
       </v-btn>
-      <v-btn class="ml-2" color="success" @click="createProfileDialog = true">
+      <v-btn class="ml-2" color="success" @click="createProfileDialog = true" tile>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-account-plus</v-icon>
         <span class="d-none d-md-flex">Create profile</span>
       </v-btn>
@@ -27,13 +27,13 @@
     </v-row>
 
     <!-- DELETE PROFILE DIALOG -->
-    <v-dialog v-model="deleteProfileData.dialog" width="600">
+    <v-dialog v-model="deleteProfileData.dialog" width="600" :overlay-opacity="0.97" transition="slide-y-transition">
       <v-card>
         <v-card-title class="headline">Delete {{ deleteProfileData.profileId }} ?</v-card-title>
         <v-card-actions>
-          <v-btn text @click="deleteProfileData.dialog =  false">Cancel</v-btn>
+          <v-btn tile text @click="deleteProfileData.dialog =  false">Cancel</v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="error" @click="deleteProfile">
+          <v-btn tile color="error" @click="deleteProfile">
             Delete
             <v-icon right>mdi-trash-can-outline</v-icon>
           </v-btn>
@@ -62,6 +62,10 @@ export default {
     this.loadData()
   },
   data: () => ({
+    items: [
+      { title: 'Home', icon: 'home' },
+      { title: 'About', icon: 'plus' }
+    ],
     profilesStyle: ProfilesStyle,
     loading: true,
     deleteProfileData: {

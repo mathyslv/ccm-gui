@@ -3,7 +3,10 @@
     <v-text-field class="headline" color="white" solo-inverted v-model="url" @keydown.enter="save" />
     <template #actions>
       <v-spacer></v-spacer>
-      <v-btn color="primary" text @click="save">Save</v-btn>
+      <v-btn color="green" @click="save" tile>
+        Save
+        <v-icon right>mdi-check</v-icon>
+      </v-btn>
     </template>
   </SettingBaseCard>
 </template>

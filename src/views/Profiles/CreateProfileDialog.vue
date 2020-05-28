@@ -1,7 +1,7 @@
 <template>
-  <v-dialog :value="value" width="600" @input="onDialogInput">
-    <v-card :loading="loading">
-      <v-card-title class="headline">Create a profile</v-card-title>
+  <v-dialog :value="value" width="600" @input="onDialogInput" :overlay-opacity="0.97" transition="slide-y-transition">
+    <v-card :loading="loading" tile>
+      <v-card-title class="headline primary justify-center">Create a profile</v-card-title>
       <v-card-text>
         <v-form>
           <v-row>
@@ -33,9 +33,9 @@
         </v-form>
       </v-card-text>
       <v-card-actions>
-        <v-btn text @click="$emit('input', false)">Cancel</v-btn>
+        <v-btn text @click="$emit('input', false)" tile>Cancel</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="success" @click="create" :loading="loading">
+        <v-btn color="success" @click="create" :loading="loading" tile>
           Create
           <v-icon right>mdi-account-plus</v-icon>
         </v-btn>

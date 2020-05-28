@@ -1,5 +1,5 @@
 <template>
-  <v-card class="px-4" :loading="loading" :disabled="disabled">
+  <v-card class="px-4" :loading="loading" :disabled="disabled" tile>
     <v-card-title v-if="hasHeader" class="display-1"><slot name="title">{{ title }}</slot></v-card-title>
     <hr v-if="hasHeader" class="mx-4">
     <v-card-text class="white--text">

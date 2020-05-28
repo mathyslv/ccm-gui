@@ -40,7 +40,7 @@
 
 <script>
 import dayjs from 'dayjs'
-import InformationTile from '@/views/Profile/InformationTile'
+import InformationTile from '@/components/profile/TitleTile'
 import { ProfilesStyle } from '@/constants/style'
 import { ResponsiveTextMixin } from '@/mixins/ResponsiveText'
 

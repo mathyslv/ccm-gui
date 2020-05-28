@@ -32,12 +32,12 @@
             </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-btn text color="accent lighten-2" :to="{ name: 'register' }">
+            <v-btn text color="accent lighten-2" tile :to="{ name: 'register' }">
               <v-icon left>mdi-account-plus</v-icon>
               Create a profile
             </v-btn>
             <v-spacer/>
-            <v-btn color="primary" class="px-4" @click.stop="login">
+            <v-btn color="primary" class="px-4" tile @click.stop="login">
               Log in
               <v-icon right>mdi-arrow-right-bold-circle-outline</v-icon>
             </v-btn>
