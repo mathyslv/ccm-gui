@@ -11,7 +11,13 @@ export default {
   mutations: {
     [Profiles.fetchAll] (state, data) {
       state.clean = false
-      state.profiles = data
+      state.profiles = data.sort((p1, p2) => {
+        if (p1.type === 'Superadmin') return -1
+        else if (p2.type === 'Superadmin') return 1
+        else if (p1.name < p2.name) return -1
+        else if (p1.name > p2.name) return 1
+        else return 0
+      })
     },
     [Profiles.fetchOne] (state, data) {
       const index = state.profiles.findIndex(p => p.id === data.id)
