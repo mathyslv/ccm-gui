@@ -34,6 +34,7 @@
         :new-resource-show="newResourceShow"
         :auto-scroll="autoScroll"
         :loading="loading"
+        @new-resource-show="newResourceShow = $event"
         @loading="loading = $event"
       />
     </v-card-text>

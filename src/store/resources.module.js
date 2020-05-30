@@ -74,6 +74,18 @@ export default {
       }
       mapExtendedResources(dataEnv, dataResourcesEnv)
     },
+    [Resources.updateOne] (state, { id, env, key, resource }) {
+      const dataResourcesEnv = state.data.find(d => d.id === id).resourcesEnv
+      if (!dataResourcesEnv) return
+      const dataEnv = dataResourcesEnv.find(re => re.env === env)
+      if (!dataEnv) return
+      const updateIndex = dataEnv.resources.findIndex(r => r.key === key)
+      if (updateIndex !== -1) {
+        dataEnv.resources[updateIndex]._type = resource._type
+        dataEnv.resources[updateIndex].value = resource.value
+        if (key === '__extends') mapExtendedResources(dataEnv, dataResourcesEnv)
+      }
+    },
     [Resources.deleteOne] (state, { id, key, env }) {
       const dataResourcesEnv = state.data.find(d => d.id === id).resourcesEnv
       if (!dataResourcesEnv) return
@@ -105,6 +117,12 @@ export default {
       return promiseWrapper(
         axios.post(`resources/${id}/${env}`, data),
         resource => commit(Resources.createOne, { id, env, resource })
+      )
+    },
+    async [Resources.updateOne] ({ commit }, { id, env, key, data }) {
+      return promiseWrapper(
+        axios.patch(`resources/${id}/${env}/${key}`, data),
+        resource => commit(Resources.updateOne, { id, env, key, resource })
       )
     },
     async [Resources.deleteOne] ({ commit }, { id, env, key }) {

@@ -1,7 +1,22 @@
 <template>
   <v-col :cols="cols" :sm="sm" :md="md" :lg="lg" class="pt-0">
     <!-- ROLES TITLE -->
-    <v-row><v-col><InformationTile title="Roles"/></v-col></v-row>
+    <v-row>
+      <v-col>
+        <InformationTile title="Roles">
+          <!-- <template #prepend>
+            <v-tooltip right transition="fade-transition">
+              <span class="body-1">Refresh</span>
+              <template #activator="{ on }">
+                <v-btn icon tile v-on="on">
+                  <v-icon >mdi-refresh</v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
+          </template> -->
+        </InformationTile>
+      </v-col>
+    </v-row>
 
     <!-- SKELETON INFORMATIONS -->
     <v-row v-if="loading">
@@ -14,15 +29,15 @@
     </v-row>
 
     <!-- NO ROLE -->
-    <InformationTile v-else-if="profile.roles.length === 0" class="text-center">No role</InformationTile>
+    <InformationTile v-else-if="profile && profile.roles.length === 0" class="text-center">No role</InformationTile>
 
     <!-- ROLES CARDS -->
     <v-sheet v-else class="py-2 px-4" tile>
-        <v-simple-table>
+        <v-simple-table v-if="profile">
           <thead>
           <tr>
-            <th class="body-2">Name</th>
-            <th class="body-2">Value</th>
+            <th class="subtitle-1">Name</th>
+            <th class="subtitle-1">Value</th>
           </tr>
           </thead>
           <tbody>

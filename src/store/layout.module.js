@@ -6,9 +6,13 @@ export default {
     drawer: {
       displayed: null,
       mini: true
-    }
+    },
+    breadcrumbs: []
   },
   mutations: {
+    [Layout.setBreadcrumbs] (state, breadcrumbs) {
+      state.breadcrumbs = breadcrumbs
+    },
     [Layout.toggleDrawer] (state) {
       state.drawer.displayed = !state.drawer.displayed
     },
@@ -34,6 +38,9 @@ export default {
     },
     [Layout.setDrawerMini] ({ commit }, mini) {
       commit(Layout.setDrawerMini, mini)
+    },
+    [Layout.setBreadcrumbs] ({ commit }, breadcrumbs) {
+      commit(Layout.setBreadcrumbs, breadcrumbs)
     }
   }
 }

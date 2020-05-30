@@ -12,10 +12,18 @@
 <script>
 import Breadcrumbs from '@/components/Breadcrumbs'
 import CcmServerUrl from '@/views/Settings/CcmServerUrl'
+import { mapActions } from 'vuex'
+import { Layout } from '@/constants/store'
 
 export default {
   name: 'Settings',
-  components: { CcmServerUrl, Breadcrumbs }
+  components: { CcmServerUrl, Breadcrumbs },
+  created () {
+    this.setBreadcrumbs([{ title: 'Settings' }])
+  },
+  methods: {
+    ...mapActions('layout', { setBreadcrumbs: Layout.setBreadcrumbs })
+  }
 }
 </script>
 

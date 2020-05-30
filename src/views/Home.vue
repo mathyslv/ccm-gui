@@ -43,14 +43,21 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import CenteredView from '../components/CenteredView'
 import { ResponsiveTextMixin } from '@/mixins/ResponsiveText'
+import { Layout } from '@/constants/store'
 
 export default {
   name: 'Home',
   mixins: [ResponsiveTextMixin],
   components: { CenteredView },
+  created () {
+    this.setBreadcrumbs([])
+  },
+  methods: {
+    ...mapActions('layout', { setBreadcrumbs: Layout.setBreadcrumbs })
+  },
   computed: {
     ...mapGetters(['ccmServerUrl'])
   }

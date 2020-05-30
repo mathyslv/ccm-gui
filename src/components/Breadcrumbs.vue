@@ -1,12 +1,12 @@
 <template>
   <v-row justify="start" align="center" class="my-2">
     <v-col cols="auto" class="d-flex align-center">
-      <template v-for="(item, index) in items">
+      <!-- <template v-for="(item, index) in items">
         <span v-if="item.type === 'path'" :key="index" :class="responsiveDisplay">{{ item.value }}</span>
         <span v-else :key="index" :class="[responsiveDisplay, {'mx-2': $vuetify.breakpoint.mdAndUp}]">
           <v-icon :class="responsiveDisplay">mdi-chevron-double-right</v-icon>
         </span>
-      </template>
+      </template> -->
     </v-col>
     <v-spacer></v-spacer>
     <v-col :cols="twoLines ? 12 : 'auto'" md="auto"  class="d-flex align-center">

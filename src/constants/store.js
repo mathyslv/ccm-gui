@@ -9,7 +9,8 @@ export const Layout = {
   toggleDrawer: 'toggleDrawer',
   toggleDrawerMini: 'toggleDrawerMini',
   setDrawer: 'setDrawer',
-  setDrawerMini: 'setDrawerMini'
+  setDrawerMini: 'setDrawerMini',
+  setBreadcrumbs: 'setBreadcrumbs'
 }
 
 export const Notifications = {
@@ -37,5 +38,6 @@ export const Profiles = {
 export const Resources = {
   fetchAll: 'fetchAll',
   createOne: 'createOne',
+  updateOne: 'updateOne',
   deleteOne: 'deleteOne'
 }

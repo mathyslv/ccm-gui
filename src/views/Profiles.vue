@@ -50,7 +50,7 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import { ProfilesStyle } from '@/constants/style'
-import { Notifications } from '@/constants/store'
+import { Layout, Notifications } from '@/constants/store'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import ProfileCard from '@/components/profiles/ProfileCard'
 import CreateProfileDialog from '@/views/Profiles/CreateProfileDialog'
@@ -58,6 +58,11 @@ import CreateProfileDialog from '@/views/Profiles/CreateProfileDialog'
 export default {
   name: 'Profiles',
   components: { CreateProfileDialog, ProfileCard, Breadcrumbs },
+  created () {
+    this.setBreadcrumbs([
+      { title: 'Profiles', to: { name: 'profiles' } }
+    ])
+  },
   mounted () {
     this.loadData()
   },
@@ -76,6 +81,7 @@ export default {
     createProfileDialog: false
   }),
   methods: {
+    ...mapActions('layout', { setBreadcrumbs: Layout.setBreadcrumbs }),
     ...mapActions('profiles', ['fetchAll', 'delete']),
     ...mapActions('notifications', [Notifications.addNotification]),
     showDeleteDialog (profile) {
