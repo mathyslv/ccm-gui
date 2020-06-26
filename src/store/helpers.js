@@ -1,11 +1,11 @@
 export const promiseWrapper = (fn, callback) => {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      fn.then(res => {
-        callback(res.data)
-        resolve(res.data)
-      }).catch(err => reject(err))
-    }, 1000)
+    // setTimeout(() => {
+    fn.then(res => {
+      callback(res.data)
+      resolve(res.data)
+    }).catch(err => reject(err))
+    // }, 1000)
   })
 }
 

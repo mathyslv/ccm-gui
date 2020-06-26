@@ -1,14 +1,22 @@
+<!-- suppress ALL -->
 <template>
-  <v-list-item color="accent lighten-1" link :to="to" :exact="exact">
-    <v-list-item-action class="white--text">
-      <v-icon>
-        <slot name="icon">mdi-close-thick</slot>
-      </v-icon>
-    </v-list-item-action>
+  <v-list-item
+    :to="to"
+    :exact="exact"
+    :link="link"
+    active-class="nav-drawer__list-item--active"
+    :input-value="inputValue"
+    color="white"
+    :ripple="false"
+  >
+    <v-list-item-icon v-if="icon !== undefined">
+      <slot name="icon">
+        <v-icon>{{ icon }}</v-icon>
+      </slot>
+    </v-list-item-icon>
     <v-list-item-content>
-      <v-list-item-title class="white--text">
-        <slot name="title">Default title</slot>
-      </v-list-item-title>
+      <slot name="content"/>
+      <v-list-item-title :class="titleClass">{{ title }}</v-list-item-title>
     </v-list-item-content>
   </v-list-item>
 </template>
@@ -17,14 +25,38 @@
 export default {
   name: 'NavigationDrawerListItem',
   props: {
-    to: undefined,
+    color: {
+      type: String,
+      default: null
+    },
+    titleClass: {
+      type: String,
+      default: null
+    },
+    link: {
+      type: Boolean,
+      default: false
+    },
+    inputValue: {
+      type: Boolean,
+      default: false
+    },
+    to: {
+      type: null,
+      default: null
+    },
     exact: {
       type: Boolean,
-      default: true
-    }
+      default: false
+    },
+    icon: {
+      type: [String, Boolean],
+      default: undefined
+    },
+    title: String
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 </style>

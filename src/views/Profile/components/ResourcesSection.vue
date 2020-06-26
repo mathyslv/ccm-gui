@@ -58,11 +58,11 @@
 <script>
 import TitleTile from '@/components/profile/TitleTile'
 import EnvResourcesCard from '@/components/profile/resources/EnvResourcesCard'
-import ResourcesExpandEnvDialog from '@/views/Profile/ResourcesExpandEnvDialog'
-import AddEnvironmentDialog from '@/views/Profile/AddEnvironmentDialog'
+import ResourcesExpandEnvDialog from '@/views/Profile/components/ResourcesExpandEnvDialog'
+import AddEnvironmentDialog from '@/views/Profile/components/AddEnvironmentDialog'
 import { mapActions, mapGetters } from 'vuex'
 import { Resources } from '@/constants/store'
-import BaseSectionButton from '@/components/base/BaseSectionButton'
+import BaseSectionButton from '@/components/base/button/BaseSectionButton'
 
 export default {
   name: 'ResourcesSection',

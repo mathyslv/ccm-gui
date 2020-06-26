@@ -1,15 +1,13 @@
 <template>
-  <v-container fluid>
-    <Breadcrumbs :path="['Profiles']">
-      <v-btn color="primary" @click="loadData(true)" :loading="loading" tile>
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-refresh</v-icon>
-        <span class="d-none d-md-flex">Refresh data</span>
-      </v-btn>
-      <v-btn class="ml-2" color="success" @click="createProfileDialog = true" tile>
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-account-plus</v-icon>
-        <span class="d-none d-md-flex">Create profile</span>
-      </v-btn>
-    </Breadcrumbs>
+  <BaseContainer>
+    <portal to="destination">
+      <BaseActionButton color="primary" @click="loadData(true)" :loading="loading" icon="mdi-refresh">
+        Refresh data
+      </BaseActionButton>
+      <BaseActionButton color="success" :to="{ name: 'create-profile' }" icon="mdi-account-plus">
+        Create profile
+      </BaseActionButton>
+    </portal>
     <v-row v-if="loading">
       <v-col cols="12" sm="6" md="4" lg="3" v-for="n in 4" :key="n">
         <v-skeleton-loader type="article, actions" />
@@ -17,7 +15,8 @@
     </v-row>
 
     <v-row v-else justify="start">
-      <v-col cols="12" sm="6" md="4" lg="3" v-for="profile in profiles" :key="profile.id">
+      <v-col cols="12" sm="6" md="4" v-for="profile in profiles" :key="profile.id">
+      <!-- <v-col cols="12" v-for="profile in profiles" :key="profile.id" class="py-2"> -->
         <ProfileCard
           :loading="deleteProfileData.loadingId === profile.id ? 'error' : false"
           :profile="profile"
@@ -42,27 +41,22 @@
     </v-dialog>
 
     <!-- CREATE PROFILE DIALOG -->
-  <CreateProfileDialog v-model="createProfileDialog" />
-
-  </v-container>
+    <CreateProfileDialog v-model="createProfileDialog" />
+  </BaseContainer>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
 import { ProfilesStyle } from '@/constants/style'
-import { Layout, Notifications } from '@/constants/store'
-import Breadcrumbs from '@/components/Breadcrumbs'
+import { Notifications } from '@/constants/store'
 import ProfileCard from '@/components/profiles/ProfileCard'
 import CreateProfileDialog from '@/views/Profiles/CreateProfileDialog'
+import BaseContainer from '@/components/base/layout/BaseContainer'
+import BaseActionButton from '@/components/base/button/BaseActionButton'
 
 export default {
   name: 'Profiles',
-  components: { CreateProfileDialog, ProfileCard, Breadcrumbs },
-  created () {
-    this.setBreadcrumbs([
-      { title: 'Profiles', to: { name: 'profiles' } }
-    ])
-  },
+  components: { BaseActionButton, BaseContainer, CreateProfileDialog, ProfileCard },
   mounted () {
     this.loadData()
   },
@@ -81,7 +75,6 @@ export default {
     createProfileDialog: false
   }),
   methods: {
-    ...mapActions('layout', { setBreadcrumbs: Layout.setBreadcrumbs }),
     ...mapActions('profiles', ['fetchAll', 'delete']),
     ...mapActions('notifications', [Notifications.addNotification]),
     showDeleteDialog (profile) {

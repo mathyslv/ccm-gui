@@ -6,10 +6,8 @@ export const Root = {
 }
 
 export const Layout = {
-  toggleDrawer: 'toggleDrawer',
-  toggleDrawerMini: 'toggleDrawerMini',
-  setDrawer: 'setDrawer',
-  setDrawerMini: 'setDrawerMini',
+  setNotificationDrawer: 'setNotificationDrawer',
+  setNavbarExtension: 'setNavbarExtension',
   setBreadcrumbs: 'setBreadcrumbs'
 }
 

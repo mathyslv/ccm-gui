@@ -1,24 +1,18 @@
 <template>
-  <SettingBaseCard title="CCM Server URL">
-    <v-text-field class="headline" color="white" solo-inverted v-model="url" @keydown.enter="save" />
-    <template #actions>
-      <v-spacer></v-spacer>
-      <v-btn color="green" @click="save" tile>
-        Save
-        <v-icon right>mdi-check</v-icon>
-      </v-btn>
-    </template>
-  </SettingBaseCard>
+  <BaseDashboardCard title="Server URL" align="start">
+    <BaseInput label="URL" v-model="url" icon="mdi-link-variant" @keydown.enter="save"/>
+  </BaseDashboardCard>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import SettingBaseCard from '@/components/settings/SettingBaseCard'
 import { Notifications, Root } from '@/constants/store'
+import BaseInput from '@/components/base/form/BaseInput'
+import BaseDashboardCard from '@/components/base/card/BaseDashboardCard'
 
 export default {
   name: 'CcmServerUrl',
-  components: { SettingBaseCard },
+  components: { BaseDashboardCard, BaseInput },
   mounted () {
     this.url = this.ccmServerUrl
   },

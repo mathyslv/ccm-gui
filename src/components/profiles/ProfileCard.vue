@@ -1,30 +1,48 @@
 <template>
-  <v-card
-    raised
+  <BaseHoverCard
+    spacing="pa-4"
     :loading="loading || ownLoading"
     @click="viewProfile"
     :disabled="!!loading || !!ownLoading"
-    tile
   >
-    <v-card-text>
-      <p class="display-1 white--text">
-        {{ profile.name }}
-        <v-icon
-          v-if="profile.type === 'Superadmin'"
-          class="display-1 float-right"
-          :color="profilesStyle.Colors.Superadmin"
-        >
-          mdi-account-cog
-        </v-icon>
-      </p>
-      <p>/profiles/{{ profile.id }}</p>
-      <p>
-        Created: {{ createdAtFormat }} <br>
-        Updated: {{ updatedAtFormat }}
-      </p>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn icon large text color="error" @click.stop="$emit('delete')" tile>
+    <template #hover>
+      <v-row dense class="grow">
+        <v-col>
+          <BaseActionButton color="error" icon="mdi-trash-can-outline" @click.stop="$emit('delete')">
+            Delete
+          </BaseActionButton>
+        </v-col>
+        <v-col>
+          <BaseActionButton color="info" icon="mdi-eye" @click.stop="viewProfile">
+            Open
+          </BaseActionButton>
+        </v-col>
+        <v-col>
+          <BaseActionButton color="amber darken-2" icon="mdi-account-key" @click.stop="getProfileToken">
+            Token
+          </BaseActionButton>
+        </v-col>
+      </v-row>
+    </template>
+    <p class="display-1 text--text d-flex align-center ma-0">
+      <v-icon
+        v-if="profile.type === 'Superadmin'"
+        left
+        class="display-1 float-right"
+        :color="profilesStyle.Colors.Superadmin"
+      >
+        mdi-account-cog
+      </v-icon>
+      {{ profile.name }}
+      <v-spacer />
+      <span class="title secondary--text">{{ (Math.round(Math.random() * 100)) + 3 }} resources</span>
+      <!-- <span class="subtitle-2">{{ profile.id }}</span> -->
+    </p>
+    <hr class="my-2 pa-0 transparent" />
+    <p class="text--text d-flex subtitle-1 ma-0">
+      Created: {{ createdAtFormat }} <v-spacer /> Updated: {{ updatedAtFormat }}
+    </p>
+      <!-- <v-btn icon large text color="error" @click.stop="$emit('delete')" tile>
         <v-icon>mdi-trash-can-outline</v-icon>
       </v-btn>
       <v-spacer/>
@@ -33,8 +51,7 @@
       </v-btn>
       <v-btn icon large text color="accent lighten-2" @click.stop="editProfile" tile>
         <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-    </v-card-actions>
+      </v-btn> -->
     <v-dialog id="token-dialog-container" v-model="tokenDialog.show" max-width="600">
       <v-card>
         <v-card-title class="body-1" :id="'generated-token-' + profile.id">
@@ -57,7 +74,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-card>
+  </BaseHoverCard>
 </template>
 
 <script>
@@ -67,9 +84,14 @@ import * as ClipboardJS from 'clipboard'
 import { mapActions } from 'vuex'
 import { ProfilesStyle } from '@/constants/style'
 import { Notifications } from '@/constants/store'
+import BaseCard from '@/components/base/card/BaseCard'
+import BaseHoverCard from '@/components/base/card/BaseHoverCard'
+import BaseActionButton from '@/components/base/button/BaseActionButton'
 
 export default {
   name: 'ProfileCard',
+  // eslint-disable-next-line vue/no-unused-components
+  components: { BaseActionButton, BaseHoverCard, BaseCard },
   props: {
     profile: Object,
     loading: {

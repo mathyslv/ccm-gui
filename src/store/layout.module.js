@@ -3,44 +3,30 @@ import { Layout } from '@/constants/store'
 export default {
   namespaced: true,
   state: {
-    drawer: {
-      displayed: null,
-      mini: true
-    },
+    navbarExtension: false,
+    notificationDrawer: false,
     breadcrumbs: []
   },
   mutations: {
+    [Layout.setNotificationDrawer] (state, drawer) {
+      state.notificationDrawer = drawer
+    },
     [Layout.setBreadcrumbs] (state, breadcrumbs) {
       state.breadcrumbs = breadcrumbs
     },
-    [Layout.toggleDrawer] (state) {
-      state.drawer.displayed = !state.drawer.displayed
-    },
-    [Layout.toggleDrawerMini] (state) {
-      state.drawer.mini = !state.drawer.mini
-    },
-    [Layout.setDrawerMini] (state, mini) {
-      state.drawer.mini = mini
-    },
-    [Layout.setDrawer] (state, displayed) {
-      state.drawer.displayed = displayed
+    [Layout.setNavbarExtension] (state, navbarExtension) {
+      state.navbarExtension = navbarExtension
     }
   },
   actions: {
-    [Layout.toggleDrawer] ({ commit }) {
-      commit(Layout.toggleDrawer)
-    },
-    [Layout.toggleDrawerMini] ({ commit }) {
-      commit(Layout.toggleDrawerMini)
-    },
-    [Layout.setDrawer] ({ commit }, displayed) {
-      commit(Layout.setDrawer, displayed)
-    },
-    [Layout.setDrawerMini] ({ commit }, mini) {
-      commit(Layout.setDrawerMini, mini)
-    },
     [Layout.setBreadcrumbs] ({ commit }, breadcrumbs) {
       commit(Layout.setBreadcrumbs, breadcrumbs)
+    },
+    [Layout.setNotificationDrawer] ({ commit }, drawer) {
+      commit(Layout.setNotificationDrawer, drawer)
+    },
+    [Layout.setNavbarExtension] ({ commit }, navbarExtension) {
+      commit(Layout.setNavbarExtension, navbarExtension)
     }
   }
 }

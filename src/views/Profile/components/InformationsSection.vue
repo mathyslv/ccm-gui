@@ -52,7 +52,7 @@ import { ProfilesStyle } from '@/constants/style'
 import { ResponsiveTextMixin } from '@/mixins/ResponsiveText'
 import { mapActions } from 'vuex'
 import { Profiles } from '@/constants/store'
-import BaseSectionButton from '@/components/base/BaseSectionButton'
+import BaseSectionButton from '@/components/base/button/BaseSectionButton'
 
 export default {
   name: 'InformationsSection',

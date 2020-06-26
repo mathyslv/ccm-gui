@@ -1,19 +1,22 @@
 <template>
-  <v-card class="px-4" :loading="loading" :disabled="disabled" tile>
-    <v-card-title v-if="hasHeader" class="display-1"><slot name="title">{{ title }}</slot></v-card-title>
-    <hr v-if="hasHeader" class="mx-4">
-    <v-card-text class="white--text">
-      <slot></slot>
-    </v-card-text>
-    <v-card-actions v-if="$slots.actions">
+  <BaseDashboardCard
+    :loading="loading"
+    :disabled="disabled"
+    :title="title"
+    spacing="px-8 py-0"
+  >
+    <slot></slot>
+    <template #actions v-if="$slots.actions">
       <slot name="actions"></slot>
-    </v-card-actions>
-  </v-card>
+    </template>
+  </BaseDashboardCard>
 </template>
 
 <script>
+import BaseDashboardCard from '@/components/base/card/BaseDashboardCard'
 export default {
-  name: 'SettingBaseCard',
+  name: 'SettingCard',
+  components: { BaseDashboardCard },
   props: {
     loading: {
       type: [Boolean, String],

@@ -1,68 +1,64 @@
 <template>
-  <CenteredView>
-      <v-col cols="12" sm="8" md="4">
-        <v-card
-          class="elevation-12"
-          :loading="loading ? 'primary' : false"
-          :disabled="loading">
-          <v-toolbar color="primary" dark flat>
-            <v-toolbar-title>Log in to a profile</v-toolbar-title>
-          </v-toolbar>
-          <v-card-title v-if="error" class="error--text">
-            <v-icon color="error" class="mr-2">mdi-alert-circle</v-icon>
-            {{ error }}
-          </v-card-title>
-          <v-card-text>
-            <v-form>
-              <v-text-field
+  <BaseContainer>
+    <v-row class="justify-center">
+      <v-col cols="12" sm="8" lg="6">
+        <BaseCard spacing="pt-12 px-12">
+          <v-row justify="center">
+            <v-col cols="12" md="10" lg="8">
+              <BaseInput
+                label="Profile name"
+                icon="mdi-account-circle"
                 v-model="form.profile"
-                color="white"
-                label="Login"
-                prepend-icon="mdi-account"
+                autofocus
                 @keydown.enter="login"
               />
-              <v-text-field
-                v-model="form.password"
-                color="white"
-                label="Password"
-                prepend-icon="mdi-lock"
+              <BaseInput
                 type="password"
+                label="Password"
+                icon="mdi-lock"
+                v-model="form.password"
                 @keydown.enter="login"
               />
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn text color="accent lighten-2" tile :to="{ name: 'register' }">
-              <v-icon left>mdi-account-plus</v-icon>
-              Create a profile
-            </v-btn>
+            </v-col>
+          </v-row>
+          <template #actions>
             <v-spacer/>
-            <v-btn color="primary" class="px-4" tile @click.stop="login">
-              Log in
-              <v-icon right>mdi-arrow-right-bold-circle-outline</v-icon>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+            <BaseActionButton
+              color="primary"
+              @click.stop="login"
+              icon-right
+              icon="mdi-login-variant"
+            >
+              Login
+            </BaseActionButton>
+          </template>
+        </BaseCard>
       </v-col>
-  </CenteredView>
+    </v-row>
+  </BaseContainer>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-import CenteredView from '@/components/CenteredView'
 import { Auth, Notifications } from '@/constants/store'
 import { LoginNotification } from '@/constants/notifications'
+import BaseActionButton from '@/components/base/button/BaseActionButton'
+import BaseContainer from '@/components/base/layout/BaseContainer'
+import BaseInput from '@/components/base/form/BaseInput'
+import BaseCard from '@/components/base/card/BaseCard'
 
 export default {
   name: 'Login',
-  components: { CenteredView },
+  components: { BaseCard, BaseInput, BaseContainer, BaseActionButton },
   data: () => ({
     form: {
       profile: null,
       password: null
     },
     loading: false,
-    error: null
+    error: null,
+    profileNameFocus: false,
+    passwordFocus: false
   }),
   methods: {
     ...mapActions('notifications', [Notifications.addNotification]),

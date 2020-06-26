@@ -1,30 +1,42 @@
 <template>
-  <v-navigation-drawer
-    app
-    :value="drawer.displayed"
-    :mini-variant="$vuetify.breakpoint.mdAndUp && drawer.mini"
-    @input="setDrawer">
-    <v-list>
-      <NavigationDrawerListItem :to="{ name: 'home'}">
-        <template #icon>mdi-view-dashboard</template>
-        <template #title>Home</template>
-      </NavigationDrawerListItem>
-      <NavigationDrawerListItem :to="{ name: 'profiles' }">
-        <template #icon>mdi-account-search</template>
-        <template #title>Profiles</template>
-      </NavigationDrawerListItem>
-      <NavigationDrawerListItem :to="{ name: 'settings' }">
-        <template #icon>mdi-cog</template>
-        <template #title>Settings</template>
-      </NavigationDrawerListItem>
+  <v-navigation-drawer app color="primary" dark floating>
+    <v-list color="transparent">
+      <!-- <NavigationDrawerListItem input-value icon title="Profiles" exact>
+        <template #icon>
+          <v-progress-circular size="24" indeterminate color="secondary"/>
+        </template>
+      </NavigationDrawerListItem> -->
+      <NavigationDrawerListItem title="CCM-GUI" title-class="headline" />
+      <NavigationDrawerListItem :to="{ name: 'home'}" icon="mdi-view-dashboard" title="Dashboard" exact />
+      <NavigationDrawerListItem :to="{ name: 'profiles' }" icon="mdi-account-search" title="Profiles" />
+      <NavigationDrawerListItem :to="{ name: 'event-logs' }" icon="mdi-clock-alert-outline" title="Event Logs" />
+      <NavigationDrawerListItem :to="{ name: 'settings' }" icon="mdi-cog" title="Settings" />
     </v-list>
+    <template #append>
+      <v-list color="transparent">
+        <NavigationDrawerListItem
+          v-if="isLoggedIn"
+          @click.native.stop="logout"
+          link
+          icon="mdi-logout-variant"
+          title="Logout"
+        />
+        <template v-else>
+          <NavigationDrawerListItem
+            :to="{ name: 'login' }"
+            icon="mdi-account-circle"
+            title="Login"
+          />
+        </template>
+      </v-list>
+    </template>
   </v-navigation-drawer>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import NavigationDrawerListItem from './NavigationDrawerListItem'
-import { Layout } from '@/constants/store'
+import { Auth, Layout } from '@/constants/store'
 
 export default {
   name: 'NavigationDrawer',
@@ -32,14 +44,19 @@ export default {
   data: () => ({
   }),
   methods: {
-    ...mapActions('layout', [Layout.setDrawer])
+    ...mapActions('layout', [Layout.setDrawer]),
+    ...mapActions('auth', { processLogout: Auth.logout }),
+    logout () {
+      this.processLogout()
+      this.$router.push({ name: 'home' })
+    }
   },
   computed: {
-    ...mapState('layout', ['drawer'])
+    ...mapState('layout', ['drawer']),
+    ...mapGetters('auth', ['isLoggedIn'])
   }
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
 </style>

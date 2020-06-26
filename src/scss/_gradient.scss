@@ -1,0 +1,16 @@
+$colors: (
+  "primary",
+  "secondary",
+  "accent",
+  "error",
+  "success",
+  "warning"
+);
+
+@mixin color-gradient($color) {
+  .#{$color}-gradient {
+    background: -moz-linear-gradient(top, var(--v-#{$color}-base) 0%, var(--v-#{$color}-darken1) 100%)!important;;
+    background: -webkit-linear-gradient(top, var(--v-#{$color}-base) 0%, var(--v-#{$color}-darken1) 100%)!important;;
+    background: linear-gradient(to bottom, var(--v-#{$color}-base) 0%, var(--v-#{$color}-darken1) 100%)!important;;
+  }
+}

@@ -9,27 +9,27 @@ import profiles from './profiles.module'
 import resources from './resources.module'
 import { Root } from '@/constants/store'
 
-let ENV_CCM_SERVER_URL = process.env.VUE_APP_CCM_SERVER_URL
-
-if (ENV_CCM_SERVER_URL && ENV_CCM_SERVER_URL.substr(ENV_CCM_SERVER_URL.length - 1) !== '/') {
-  ENV_CCM_SERVER_URL += '/'
-}
-
 Vue.use(Vuex)
 
+// let ENV_CCM_SERVER_URL = process.env.VUE_APP_CCM_SERVER_URL
+// if (ENV_CCM_SERVER_URL && ENV_CCM_SERVER_URL.substr(ENV_CCM_SERVER_URL.length - 1) !== '/') {
+//   ENV_CCM_SERVER_URL += '/'
+// }
+
 const ccmServerUrlFromCookies = Cookies.get(Root._cookies.ccmServerUrl)
+// let untouched = !ccmServerUrlFromCookies
 
-let untouched = !ccmServerUrlFromCookies
-if (!untouched && ENV_CCM_SERVER_URL && ENV_CCM_SERVER_URL !== ccmServerUrlFromCookies) untouched = true
-
-if (!untouched) {
+// if (!untouched && ENV_CCM_SERVER_URL && ENV_CCM_SERVER_URL !== ccmServerUrlFromCookies) untouched = true
+// if (!untouched) {
+if (ccmServerUrlFromCookies) {
   axios.defaults.baseURL = ccmServerUrlFromCookies
 }
 
 export default new Vuex.Store({
   state: {
-    untouched,
-    ccmServerUrl: ENV_CCM_SERVER_URL || ccmServerUrlFromCookies
+    untouched: !ccmServerUrlFromCookies,
+    ccmServerUrl: ccmServerUrlFromCookies
+    // ccmServerUrl: ENV_CCM_SERVER_URL || ccmServerUrlFromCookies
   },
   mutations: {
     [Root.setCcmServerUrl] (state, url) {

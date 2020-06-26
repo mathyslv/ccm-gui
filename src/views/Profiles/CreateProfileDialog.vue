@@ -1,55 +1,52 @@
 <template>
-  <v-dialog :value="value" width="600" @input="onDialogInput" :overlay-opacity="0.97" transition="slide-y-transition">
-    <v-card :loading="loading" tile>
-      <v-card-title class="headline primary justify-center">Create a profile</v-card-title>
-      <v-card-text>
-        <v-form>
-          <v-row>
-            <v-col cols="12" sm="6">
-              <v-text-field
-                v-model="form.name"
-                color="white"
-                autocomplete="off"
-                label="Name"
-                prepend-icon="mdi-account"
-                type="text"
-              />
-            </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field
-                @keydown.enter="create"
-                v-model="form.password"
-                color="white"
-                id="password"
-                label="Password"
-                prepend-icon="mdi-lock"
-                :append-icon="passwordFieldShow ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="passwordFieldShow ? 'text' : 'password'"
-                @click:append="passwordFieldShow = !passwordFieldShow"
-              >
-              </v-text-field>
-            </v-col>
-          </v-row>
-        </v-form>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn text @click="$emit('input', false)" tile>Cancel</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn color="success" @click="create" :loading="loading" tile>
-          Create
-          <v-icon right>mdi-account-plus</v-icon>
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  <BaseDialog title="Create a profile" :value="value" @input="onDialogInput">
+    <v-form>
+      <v-row>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            v-model="form.name"
+            color="primary"
+            autocomplete="off"
+            label="Name"
+            prepend-icon="mdi-account"
+            type="text"
+          />
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            @keydown.enter="create"
+            v-model="form.password"
+            color="primary"
+            id="password"
+            label="Password"
+            prepend-icon="mdi-lock"
+            :append-icon="passwordFieldShow ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="passwordFieldShow ? 'text' : 'password'"
+            @click:append="passwordFieldShow = !passwordFieldShow"
+          >
+          </v-text-field>
+        </v-col>
+      </v-row>
+    </v-form>
+    <template #actions>
+      <BaseActionButton @click="$emit('input', false)" color="text" text>Cancel</BaseActionButton>
+      <v-spacer></v-spacer>
+      <BaseActionButton color="success" @click="create" :loading="!!loading" icon="mdi-account-plus">
+        Create
+      </BaseActionButton>
+    </template>
+  </BaseDialog>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
 import { Notifications, Profiles } from '@/constants/store'
+import BaseDialog from '@/components/base/dialog/BaseDialog'
+import BaseActionButton from '@/components/base/button/BaseActionButton'
 
 export default {
   name: 'CreateProfileDialog',
+  components: { BaseActionButton, BaseDialog },
   props: {
     value: {
       type: Boolean,
