@@ -1,6 +1,6 @@
 <template>
   <div class="ccm-form-group mb-8">
-    <label :for="inputId" class="title d-block mb-1" :class="focus ? color + '--text' : 'text--text'">
+    <label :for="inputId" class="title d-block" :class="focus ? color + '--text' : 'text--text'">
       <v-icon v-if="icon" :color="focus ? color : 'text'" class="mt-n1" left>
         {{ icon }}
       </v-icon>
@@ -16,6 +16,7 @@
       @blur="focus = false"
       @input="$emit('input', $event)"
       @keydown="$emit('keydown', $event)"
+      class="rounded-xl"
     />
   </div>
 </template>

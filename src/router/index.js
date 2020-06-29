@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    alias: 'dashboard',
+    alias: '/dashboard',
     component: Dashboard,
     meta: {
       breadcrumbs: ['Dashboard']
@@ -46,10 +46,19 @@ const routes = [
     path: '/profiles',
     name: 'profiles',
     meta: {
-      navbarExtension: true,
       breadcrumbs: ['Profiles']
     },
-    component: () => import(/* webpackChunkName: "profiles" */ '@/views/Profiles/Profiles.vue')
+    component: () => import(/* webpackChunkName: "profiles" */ '@/views/Profiles/Profiles.vue'),
+    children: [
+      {
+        path: '/:id',
+        name: 'profile',
+        meta: {
+          breadcrumbs: ['Profiles', '...']
+        },
+        component: () => import(/* webpackChunkName: "profile" */ '@/views/Profile/Profile.vue')
+      }
+    ]
   },
   {
     path: '/profiles/create',
@@ -58,15 +67,6 @@ const routes = [
       breadcrumbs: ['Profiles', 'Create']
     },
     component: () => import(/* webpackChunkName: "profile-create" */ '@/views/Profile/CreateProfile.vue')
-  },
-  {
-    path: '/profiles/:id',
-    name: 'profile',
-    meta: {
-      navbarExtension: true,
-      breadcrumbs: ['Profiles', '...']
-    },
-    component: () => import(/* webpackChunkName: "profile" */ '@/views/Profile/Profile.vue')
   },
   {
     path: '/event-logs',

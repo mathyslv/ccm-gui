@@ -4,6 +4,7 @@
     :disabled="disabled"
     :color="color"
     :outlined="outlined"
+    class="rounded-xl"
     v-on="listeners"
   >
     <slot name="root" />

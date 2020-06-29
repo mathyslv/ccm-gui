@@ -1,7 +1,7 @@
 <template>
   <v-card :disabled="!!loading" :loading="loading" elevation="0" tile>
     <v-card-text>
-      <p class="headline white--text d-flex align-center pl-2" :class="{'mb-0': !showTable}">
+      <p class="text-body-1 text--text d-flex align-center pl-2" :class="{'mb-0': !showTable}">
         /{{ env.env }} ({{ env.resources.length }})
         <template v-if="!!env.extends">
           <span class="px-2 grey--text text--darken-1">extends</span> /{{ env.extends }}

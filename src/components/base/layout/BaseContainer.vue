@@ -1,5 +1,5 @@
 <template>
-  <v-container  v-bind="spacing">
+  <v-container v-bind="spacing">
     <slot />
   </v-container>
 </template>

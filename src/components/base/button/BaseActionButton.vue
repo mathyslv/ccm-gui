@@ -5,19 +5,19 @@
     elevation="0"
     :outlined="outlined && !text"
     :text="text && !outlined"
-    class="pt-1 px-4"
+    :small="small"
+    class="px-4 rounded-xl"
   >
     <v-icon
       v-if="icon && !iconRight"
       v-bind="iconAttrs"
-      class="mt-n1 ml-n1"
+      class="ml-n1"
       left
     >{{ icon }}</v-icon>
     <slot />
     <v-icon
       v-if="icon && iconRight"
       v-bind="iconAttrs"
-      class="mt-n1"
       right
     >{{ icon }}</v-icon>
   </v-btn>
@@ -29,6 +29,7 @@ export default {
   props: {
     icon: String,
     iconSize: String,
+    small: Boolean,
     outlined: {
       type: Boolean,
       default: false

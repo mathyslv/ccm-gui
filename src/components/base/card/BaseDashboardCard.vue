@@ -1,7 +1,7 @@
 <template>
   <BaseCard :loading="loading" :disabled="disabled">
     <template #root>
-      <v-card-text class="title align-center d-flex text--text pl-6" v-if="title">
+      <v-card-text class="title align-center text-h5 font-weight-bold d-flex text--text pl-6" v-if="title">
         {{ title }}
         <v-spacer />
         <slot name="actions" />

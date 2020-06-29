@@ -6,15 +6,15 @@
         :class="responsiveText('headline', 'display-1')"
       >
         <v-row>
-          <v-col class="py-0 align-self-center" cols="4">
+          <v-col class="py-0 align-self-center" cols="3">
             <div class="d-flex justify-start" :class="$slots.append ? 'px-0' : ''">
               <slot name="prepend" />
             </div>
           </v-col>
-          <v-col class="py-0 text-center" cols="4">
+          <v-col class="py-0 text-center white--text" cols="6">
             <v-icon v-if="prependTitleIcon" left class="display-1">{{ prependTitleIcon }}</v-icon> {{ title }}
           </v-col>
-          <v-col class="py-0 align-self-center" cols="4">
+          <v-col class="py-0 align-self-center" cols="3">
             <div class="d-flex justify-end" :class="$slots.append ? 'px-0' : ''">
               <slot name="append" />
             </div>

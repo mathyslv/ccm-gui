@@ -1,27 +1,43 @@
 <template>
   <BaseContainer>
-    <portal to="destination">
-      <BaseActionButton color="primary" @click="loadData(true)" :loading="loading" icon="mdi-refresh">
-        Refresh data
-      </BaseActionButton>
-      <BaseActionButton color="success" :to="{ name: 'create-profile' }" icon="mdi-account-plus">
-        Create profile
-      </BaseActionButton>
-    </portal>
     <v-row v-if="loading">
       <v-col cols="12" sm="6" md="4" lg="3" v-for="n in 4" :key="n">
         <v-skeleton-loader type="article, actions" />
       </v-col>
     </v-row>
 
-    <v-row v-else justify="start">
-      <v-col cols="12" sm="6" md="4" v-for="profile in profiles" :key="profile.id">
-      <!-- <v-col cols="12" v-for="profile in profiles" :key="profile.id" class="py-2"> -->
-        <ProfileCard
+    <v-row v-else>
+      <v-col cols="12" lg="2">
+        <BaseCard>
+          <v-list flat color="white" outlined class="py-0">
+            <v-list-item-group color="blue" active-class="primary white--text">
+              <template v-for="(profile, index) in profiles">
+                <v-list-item
+                  :key="profile.id"
+                  :to="{name: 'profile', params: { id: profile.id }}"
+                  class="rounded-xl"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title>{{ profile.name }}</v-list-item-title>
+                  </v-list-item-content>
+                  <v-list-item-action-text>
+                    <v-icon v-if="profile.type === 'Superadmin'" color="amber darken-1" small>mdi-account-cog</v-icon>
+                  </v-list-item-action-text>
+                </v-list-item>
+                <v-divider v-if="index < profiles.length - 1" :key="profile.id + '-d'" class="my-2"/>
+              </template>
+            </v-list-item-group>
+          </v-list>
+        </BaseCard>
+        <!-- v-for="profile in profiles" :key="profile.id" -->
+        <!-- <ProfileCard
           :loading="deleteProfileData.loadingId === profile.id ? 'error' : false"
           :profile="profile"
           @delete="showDeleteDialog(profile)"
-        />
+        /> -->
+      </v-col>
+      <v-col cols="12" lg="10">
+        <router-view/>
       </v-col>
     </v-row>
 
@@ -49,14 +65,13 @@
 import { mapActions, mapState } from 'vuex'
 import { ProfilesStyle } from '@/constants/style'
 import { Notifications } from '@/constants/store'
-import ProfileCard from '@/components/profiles/ProfileCard'
 import CreateProfileDialog from '@/views/Profiles/CreateProfileDialog'
 import BaseContainer from '@/components/base/layout/BaseContainer'
-import BaseActionButton from '@/components/base/button/BaseActionButton'
+import BaseCard from '@/components/base/card/BaseCard'
 
 export default {
   name: 'Profiles',
-  components: { BaseActionButton, BaseContainer, CreateProfileDialog, ProfileCard },
+  components: { BaseCard, BaseContainer, CreateProfileDialog },
   mounted () {
     this.loadData()
   },

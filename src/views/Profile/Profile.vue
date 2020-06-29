@@ -1,32 +1,72 @@
 <template>
-  <BaseContainer>
-    <v-row class="mb-4">
-      <InformationsSection :profile="profile" :cols="12" :md="6" :lg="4" />
-      <RolesSection :profile="profile" :cols="12" :md="6" :lg="8" />
-    </v-row>
+  <BaseCard spacing="pa-6">
+    <ProfileSection title="Profile">
+      <template #actions>
+        <BaseActionButton small outlined icon="mdi-pencil" color="primary">Edit</BaseActionButton>
+        <BaseActionButton small outlined icon="mdi-trash-can" color="error" class="ml-1">Delete</BaseActionButton>
+      </template>
+      <ProfileTable>
+        <thead>
+        <ProfileTableTheadRow>
+          <ProfileTableTheadCell>Name</ProfileTableTheadCell>
+          <ProfileTableTheadCell>Created at</ProfileTableTheadCell>
+          <ProfileTableTheadCell>UUID</ProfileTableTheadCell>
+        </ProfileTableTheadRow>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="text-body-1 text--text">
+            <v-icon v-if="profile.type === 'Superadmin'" color="amber darken-1" class="mt-n1" small>mdi-account-cog</v-icon>
+            {{ profile.name }}
+          </td>
+          <td class="text-body-1 text--text">{{ createdAt }}</td>
+          <td class="text-body-1 text--text">{{ profile.id }}</td>
+        </tr>
+        </tbody>
+      </ProfileTable>
+    </ProfileSection>
+    <ProfileSection title="Roles">
+      <template #actions>
+        <BaseActionButton small outlined icon="mdi-plus" color="success">Add</BaseActionButton>
+      </template>
+      <ProfileTable>
+        <thead>
+        <ProfileTableTheadRow>
+          <ProfileTableTheadCell>Role</ProfileTableTheadCell>
+          <ProfileTableTheadCell>Value</ProfileTableTheadCell>
+        </ProfileTableTheadRow>
+        </thead>
+        <tbody>
+        <tr v-for="(role, index) in profile.roles" :key="index">
+          <td class="text-body-1 text--text">{{ role.name }}</td>
+          <td class="text-body-1 text--text">{{ role.value }}</td>
+        </tr>
+        </tbody>
+      </ProfileTable>
+    </ProfileSection>
     <ResourcesSection :profile="profile" />
-    <portal to="destination">
-      <BaseActionButton icon="mdi-arrow-left" color="grey darken-2" outlined :to="{name: 'profiles'}" exact>
-        Profiles
-      </BaseActionButton>
-      <BaseActionButton icon="mdi-pencil" color="primary">Edit</BaseActionButton>
-      <BaseActionButton icon="mdi-trash-can" color="error">Delete</BaseActionButton>
-    </portal>
-  </BaseContainer>
+    <!--
+    <InformationsSection :profile="profile" :cols="12" />
+    <RolesSection :profile="profile" :cols="12" />
+    -->
+  </BaseCard>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { Layout } from '@/constants/store'
-import InformationsSection from '@/views/Profile/components/InformationsSection'
-import RolesSection from '@/views/Profile/components/RolesSection'
 import ResourcesSection from '@/views/Profile/components/ResourcesSection'
 import BaseActionButton from '@/components/base/button/BaseActionButton'
-import BaseContainer from '@/components/base/layout/BaseContainer'
+import BaseCard from '@/components/base/card/BaseCard'
+import dayjs from 'dayjs'
+import ProfileSection from '@/components/profile/ProfileSection'
+import ProfileTable from '@/components/profile/table/ProfileTable'
+import ProfileTableTheadRow from '@/components/profile/table/ProfileTableTheadRow'
+import ProfileTableTheadCell from '@/components/profile/table/ProfileTableTheadCell'
 
 export default {
   name: 'Profile',
-  components: { BaseContainer, BaseActionButton, ResourcesSection, RolesSection, InformationsSection },
+  components: { ProfileTableTheadCell, ProfileTableTheadRow, ProfileTable, ProfileSection, BaseCard, BaseActionButton, ResourcesSection },
   methods: {
     ...mapActions('layout', { setBreadcrumbs: Layout.setBreadcrumbs })
   },
@@ -35,6 +75,14 @@ export default {
     ...mapGetters('profiles', ['profiles']),
     profile () {
       return this.profiles.find(p => p.id === this.$route.params.id)
+    },
+    createdAt () {
+      if (!this.profile) return null
+      return dayjs(this.profile.createdAt).format('DD/MM/YYYY')
+    },
+    updatedAt () {
+      if (!this.profile) return null
+      return dayjs(this.profile.updatedAt).format('DD/MM/YYYY')
     }
   },
   watch: {
@@ -48,5 +96,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .profile-table {
+    tbody tr {
+      &:hover {
+        background: inherit!important;
+      }
+    }
+  }
 </style>

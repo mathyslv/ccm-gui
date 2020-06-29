@@ -1,10 +1,10 @@
 <template>
-  <v-app id="inspire" style="background-color: #F7F7F7">
+  <v-app id="inspire" style="background-color: #f0f0f0">
     <NavigationDrawer v-if="!untouched" />
     <Navbar v-if="!untouched"/>
-    <v-content>
+    <v-main>
       <router-view></router-view>
-    </v-content>
+    </v-main>
     <NotificationDrawer v-if="!untouched" />
     <v-footer
       app

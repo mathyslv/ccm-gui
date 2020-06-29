@@ -1,58 +1,48 @@
 <template>
-  <v-row :justify="envList.length === 0 ? 'center': 'start'">
-    <v-col cols="12">
-      <TitleTile
-        :prepend-title-icon="reqError ? 'mdi-lock' : null"
-        title="Resources"
-        :color="error ? 'red' : null"
-      >
-        <template #prepend>
-          <BaseSectionButton tooltip="Refresh" icon="mdi-refresh" right @click="loadResources" />
-        </template>
-        <template #append>
-          <v-switch v-model="autoScroll" label="Auto-scroll" color="white" :height="0" class="mr-2" />
-          <!-- <v-switch color="primary lighten-1" v-model="autoScroll" label="Auto Scroll"/> -->
-        </template>
-      </TitleTile>
-    </v-col>
-
-    <!-- SKELETON RESOURCES -->
-    <template v-if="loading">
-      <v-col cols="4" v-for="n in 3" :key="n">
-        <v-sheet class="px-2">
-          <v-skeleton-loader type="date-picker-options"/>
-        </v-sheet>
-      </v-col>
+  <ProfileSection title="Environments">
+    <template #actions>
+      <BaseActionButton small outlined icon="mdi-plus" color="success">Add</BaseActionButton>
     </template>
+    <v-row :justify="envList.length === 0 ? 'center': 'start'">
 
-    <!-- ERROR OR NO RESOURCE -->
-    <v-col v-else-if="reqError" cols="6" class="text-center">
-      <TitleTile center>{{ error }}</TitleTile>
-    </v-col>
-
-    <v-col v-else-if="envList.length === 0"  cols="auto" class="text-center">
-      <AddEnvironmentDialog full-activator :profile-id="profile.id" />
-    </v-col>
-
-    <!-- RESOURCES CARDS -->
-    <v-col v-else cols="12" class="py-0">
-      <v-fade-transition group tag="div" class="row">
-        <v-col cols="12" lg="6" md="6" v-for="env in envList" :key="env.env" class="pt-0">
-          <EnvResourcesCard :auto-scroll="autoScroll" :profile-id="profile.id" :env="env" @expand-env="processExpandEnv"/>
+      <!-- SKELETON RESOURCES -->
+      <template v-if="loading">
+        <v-col cols="4" v-for="n in 3" :key="n">
+          <v-sheet class="px-2">
+            <v-skeleton-loader type="date-picker-options"/>
+          </v-sheet>
         </v-col>
-        <v-col cols="auto" key="add-env-btn" class="pt-0">
-          <AddEnvironmentDialog :profile-id="profile.id" />
-        </v-col>
-      </v-fade-transition>
-    </v-col>
+      </template>
 
-    <ResourcesExpandEnvDialog
-      :value="expandEnvShow"
-      @input="toggleExpandEnv"
-      :expanded-env="expandedEnv"
-      :profile="profile"
-    />
-  </v-row>
+      <!-- ERROR OR NO RESOURCE -->
+      <v-col v-else-if="reqError" cols="6" class="text-center">
+        <TitleTile center>{{ error }}</TitleTile>
+      </v-col>
+
+      <v-col v-else-if="envList.length === 0"  cols="auto" class="text-center">
+        <AddEnvironmentDialog full-activator :profile-id="profile.id" />
+      </v-col>
+
+      <!-- RESOURCES CARDS -->
+      <v-col v-else cols="12" class="py-0">
+        <v-fade-transition group tag="div" class="row">
+          <v-col cols="12" lg="6" md="6" v-for="env in envList" :key="env.env" class="pt-0">
+            <EnvResourcesCard :auto-scroll="autoScroll" :profile-id="profile.id" :env="env" @expand-env="processExpandEnv"/>
+          </v-col>
+          <v-col cols="auto" key="add-env-btn" class="pt-0">
+            <AddEnvironmentDialog :profile-id="profile.id" />
+          </v-col>
+        </v-fade-transition>
+      </v-col>
+
+      <ResourcesExpandEnvDialog
+        :value="expandEnvShow"
+        @input="toggleExpandEnv"
+        :expanded-env="expandedEnv"
+        :profile="profile"
+      />
+    </v-row>
+  </ProfileSection>
 </template>
 
 <script>
@@ -62,11 +52,19 @@ import ResourcesExpandEnvDialog from '@/views/Profile/components/ResourcesExpand
 import AddEnvironmentDialog from '@/views/Profile/components/AddEnvironmentDialog'
 import { mapActions, mapGetters } from 'vuex'
 import { Resources } from '@/constants/store'
-import BaseSectionButton from '@/components/base/button/BaseSectionButton'
+import ProfileSection from '@/components/profile/ProfileSection'
+import BaseActionButton from '@/components/base/button/BaseActionButton'
 
 export default {
   name: 'ResourcesSection',
-  components: { BaseSectionButton, AddEnvironmentDialog, ResourcesExpandEnvDialog, TitleTile, EnvResourcesCard },
+  components: {
+    BaseActionButton,
+    ProfileSection,
+    AddEnvironmentDialog,
+    ResourcesExpandEnvDialog,
+    TitleTile,
+    EnvResourcesCard
+  },
   props: {
     profile: Object
   },
