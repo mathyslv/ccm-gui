@@ -1,20 +1,19 @@
 <template>
-  <th class="text-body-1 text--text text--lighten-3">
+  <td class="text-body-1 text--text">
     <slot/>
-  </th>
+  </td>
 </template>
 
 <script>
 export default {
-  name: 'ProfileTableTheadCell'
+  name: 'ProfileTableTbodyCell'
 }
 </script>
 
 <style scoped lang="scss">
-  th {
+  td {
     position: relative;
-    border-bottom: none !important;
-    height: 24px !important;
+    border-bottom: none!important;
     &:after {
       content: "";
       position: absolute;
@@ -22,7 +21,7 @@ export default {
       left: 0;
       width: calc(100% - 32px);
       margin-left: 16px;
-      border-bottom: 1px solid var(--v-text-lighten3);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
     }
   }
 </style>

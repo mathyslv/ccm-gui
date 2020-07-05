@@ -1,5 +1,5 @@
 <template>
-  <tr class="grey">
+  <tr class="">
     <slot/>
   </tr>
 </template>

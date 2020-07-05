@@ -1,22 +1,30 @@
 <template>
-  <div class="ccm-form-group mb-8">
-    <label :for="inputId" class="title d-block" :class="focus ? color + '--text' : 'text--text'">
-      <v-icon v-if="icon" :color="focus ? color : 'text'" class="mt-n1" left>
+  <div class="ccm-form-group mb-8" style="width: 100%;">
+    <label
+      :for="inputId"
+      class="text-subtitle-1 d-block"
+      :class="focus ? color + '--text' : 'text--text'"
+      style="cursor: pointer;"
+    >
+      <v-icon v-if="icon" :color="focus ? color : 'text'" class="mt-n1">
         {{ icon }}
       </v-icon>
       {{ label }}
     </label>
     <v-text-field
+      v-bind="$attrs"
+      v-on="$listeners"
+      class="rounded-md text-subtitle-2"
       outlined
       dense
       hide-details
+      :id="inputId"
       :color="color"
-      v-bind="$attrs"
+      :value="value"
       @focus="focus = true"
       @blur="focus = false"
       @input="$emit('input', $event)"
       @keydown="$emit('keydown', $event)"
-      class="rounded-xl"
     />
   </div>
 </template>
@@ -32,7 +40,7 @@ export default {
     },
     icon: {
       type: String,
-      required: true
+      default: () => ''
     },
     label: {
       type: String,

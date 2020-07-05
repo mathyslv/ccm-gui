@@ -6,6 +6,7 @@
       <router-view></router-view>
     </v-main>
     <NotificationDrawer v-if="!untouched" />
+    <portal-target multiple name="drawer"/>
     <v-footer
       app
       class="justify-center"

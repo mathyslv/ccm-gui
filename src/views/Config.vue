@@ -49,7 +49,7 @@
               :disabled="!url"
               class="align-self-end headline mt-8"
               :color="success ? 'success' : 'accent'"
-              :x-large="$vuetify.breakpoint.mdAndUp"
+              :large="$vuetify.breakpoint.mdAndUp"
             >
               Start
             </BaseActionButton>

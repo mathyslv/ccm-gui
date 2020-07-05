@@ -30,6 +30,7 @@ export const Profiles = {
   fetchAll: 'fetchAll',
   fetchOne: 'fetchOne',
   create: 'create',
+  update: 'update',
   delete: 'delete'
 }
 

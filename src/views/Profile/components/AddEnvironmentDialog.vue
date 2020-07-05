@@ -6,12 +6,7 @@
     transition="slide-y-transition"
   >
     <template v-slot:activator="{ on }">
-      <v-card v-on="on" elevation="0" tile>
-        <v-card-text class="headline white--text d-flex align-center px-5 py-5">
-          <v-icon color="green" :left="fullActivator">mdi-plus</v-icon>
-          {{ fullActivator ? 'Add environment' : '' }}
-        </v-card-text>
-      </v-card>
+      <slot name="activator" :on="on"/>
     </template>
     <v-card :loading="loading" :disabled="!!loading">
       <v-card-title class="headline primary row mx-0">

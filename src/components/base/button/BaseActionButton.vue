@@ -6,7 +6,8 @@
     :outlined="outlined && !text"
     :text="text && !outlined"
     :small="small"
-    class="px-4 rounded-xl"
+    class="px-4"
+    :class="roundedClass"
   >
     <v-icon
       v-if="icon && !iconRight"
@@ -30,17 +31,12 @@ export default {
     icon: String,
     iconSize: String,
     small: Boolean,
-    outlined: {
-      type: Boolean,
-      default: false
-    },
-    iconRight: {
-      type: Boolean,
-      default: false
-    },
-    text: {
-      type: Boolean,
-      default: false
+    outlined: Boolean,
+    iconRight: Boolean,
+    text: Boolean,
+    rounded: {
+      type: String,
+      default: () => 'xl'
     },
     plain: {
       type: Boolean,
@@ -53,6 +49,12 @@ export default {
       return {
         [this.iconSize]: true
       }
+    },
+    roundedClass () {
+      if (['sm', 'md', 'lg', 'xl'].includes(this.rounded)) {
+        return 'rounded-' + this.rounded
+      }
+      return 'rounded-xl'
     }
   }
 }

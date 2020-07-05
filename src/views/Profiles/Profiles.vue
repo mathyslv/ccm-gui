@@ -7,15 +7,41 @@
     </v-row>
 
     <v-row v-else>
-      <v-col cols="12" lg="2">
+      <v-col cols="12" lg="9" xl="10">
+        <router-view v-if="$route.name !== 'profiles'"/>
+        <BaseCard v-else class="text-center justify-center">
+          <v-row>
+            <v-col class="align-self-center text-center shrink px-4 px-md-8 px-xl-12">
+              <v-icon color="grey lighten-1" :size="128">mdi-information-variant</v-icon>
+            </v-col>
+            <v-col class="grow px-6">
+              <h1 class="text-h2 grey--text text--lighten-1 text-center my-6" id="empty-tagline">
+                To display informations about a profile, select one from the right panel
+              </h1>
+            </v-col>
+            <v-col class="align-self-center text-center shrink px-4 px-md-8 px-xl-12">
+              <v-icon color="primary lighten-1" :size="92">mdi-arrow-right</v-icon>
+            </v-col>
+          </v-row>
+        </BaseCard>
+      </v-col>
+      <v-col cols="12" lg="3" xl="2">
         <BaseCard>
           <v-list flat color="white" outlined class="py-0">
+            <v-list-item @click="createProfileDialog = true" :input-value="false" class="success lighten-5">
+              <v-list-item-content>
+                <v-list-item-title class="success--text text--darken-3">Create profile</v-list-item-title>
+              </v-list-item-content>
+              <v-list-item-action-text>
+                <v-icon color="success darken-2">mdi-plus</v-icon>
+              </v-list-item-action-text>
+            </v-list-item>
             <v-list-item-group color="blue" active-class="primary white--text">
+              <v-divider class="my-2"/>
               <template v-for="(profile, index) in profiles">
                 <v-list-item
                   :key="profile.id"
                   :to="{name: 'profile', params: { id: profile.id }}"
-                  class="rounded-xl"
                 >
                   <v-list-item-content>
                     <v-list-item-title>{{ profile.name }}</v-list-item-title>
@@ -36,9 +62,6 @@
           @delete="showDeleteDialog(profile)"
         /> -->
       </v-col>
-      <v-col cols="12" lg="10">
-        <router-view/>
-      </v-col>
     </v-row>
 
     <!-- DELETE PROFILE DIALOG -->
@@ -57,7 +80,9 @@
     </v-dialog>
 
     <!-- CREATE PROFILE DIALOG -->
-    <CreateProfileDialog v-model="createProfileDialog" />
+    <portal to="drawer">
+      <CreateProfileDrawer v-model="createProfileDialog" />
+    </portal>
   </BaseContainer>
 </template>
 
@@ -65,13 +90,13 @@
 import { mapActions, mapState } from 'vuex'
 import { ProfilesStyle } from '@/constants/style'
 import { Notifications } from '@/constants/store'
-import CreateProfileDialog from '@/views/Profiles/CreateProfileDialog'
+import CreateProfileDrawer from '@/views/Profiles/CreateProfileDrawer'
 import BaseContainer from '@/components/base/layout/BaseContainer'
 import BaseCard from '@/components/base/card/BaseCard'
 
 export default {
   name: 'Profiles',
-  components: { BaseCard, BaseContainer, CreateProfileDialog },
+  components: { BaseCard, BaseContainer, CreateProfileDrawer },
   mounted () {
     this.loadData()
   },
@@ -119,6 +144,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+#empty-tagline {
+  line-height: 1.4em!important;
+}
 </style>

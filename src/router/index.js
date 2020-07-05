@@ -51,7 +51,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "profiles" */ '@/views/Profiles/Profiles.vue'),
     children: [
       {
-        path: '/:id',
+        path: ':id',
         name: 'profile',
         meta: {
           breadcrumbs: ['Profiles', '...']

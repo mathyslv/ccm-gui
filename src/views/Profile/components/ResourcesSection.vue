@@ -1,9 +1,13 @@
 <template>
-  <ProfileSection title="Environments">
+  <ProfileSection title="Environments" no-padding-bottom>
     <template #actions>
-      <BaseActionButton small outlined icon="mdi-plus" color="success">Add</BaseActionButton>
+      <AddEnvironmentDialog :profile-id="profile.id">
+        <template #activator="{ on }">
+          <BaseActionButton v-on="on" small outlined icon="mdi-plus" color="success">Add</BaseActionButton>
+        </template>
+      </AddEnvironmentDialog>
     </template>
-    <v-row :justify="envList.length === 0 ? 'center': 'start'">
+    <v-row>
 
       <!-- SKELETON RESOURCES -->
       <template v-if="loading">
@@ -19,20 +23,13 @@
         <TitleTile center>{{ error }}</TitleTile>
       </v-col>
 
-      <v-col v-else-if="envList.length === 0"  cols="auto" class="text-center">
-        <AddEnvironmentDialog full-activator :profile-id="profile.id" />
-      </v-col>
-
       <!-- RESOURCES CARDS -->
-      <v-col v-else cols="12" class="py-0">
-        <v-fade-transition group tag="div" class="row">
+      <v-col v-else-if="envList.length > 0" cols="12" class="py-0">
+        <v-row>
           <v-col cols="12" lg="6" md="6" v-for="env in envList" :key="env.env" class="pt-0">
             <EnvResourcesCard :auto-scroll="autoScroll" :profile-id="profile.id" :env="env" @expand-env="processExpandEnv"/>
           </v-col>
-          <v-col cols="auto" key="add-env-btn" class="pt-0">
-            <AddEnvironmentDialog :profile-id="profile.id" />
-          </v-col>
-        </v-fade-transition>
+        </v-row>
       </v-col>
 
       <ResourcesExpandEnvDialog
@@ -49,18 +46,18 @@
 import TitleTile from '@/components/profile/TitleTile'
 import EnvResourcesCard from '@/components/profile/resources/EnvResourcesCard'
 import ResourcesExpandEnvDialog from '@/views/Profile/components/ResourcesExpandEnvDialog'
-import AddEnvironmentDialog from '@/views/Profile/components/AddEnvironmentDialog'
 import { mapActions, mapGetters } from 'vuex'
 import { Resources } from '@/constants/store'
 import ProfileSection from '@/components/profile/ProfileSection'
 import BaseActionButton from '@/components/base/button/BaseActionButton'
+import AddEnvironmentDialog from '@/views/Profile/components/AddEnvironmentDialog'
 
 export default {
   name: 'ResourcesSection',
   components: {
+    AddEnvironmentDialog,
     BaseActionButton,
     ProfileSection,
-    AddEnvironmentDialog,
     ResourcesExpandEnvDialog,
     TitleTile,
     EnvResourcesCard
@@ -115,6 +112,12 @@ export default {
     envList () {
       if (!this.resources) return []
       return this.resources
+    }
+  },
+  watch: {
+    $route (to) {
+      if (this.resources) this.loading = false
+      else this.loadResources()
     }
   }
 }

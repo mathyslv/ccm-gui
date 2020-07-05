@@ -40,8 +40,17 @@ export default {
     [Profiles.fetchOne] ({ commit }, id) {
       return promiseWrapper(axios.get(`profiles/${id}`), data => commit(Profiles.fetchOne, data))
     },
+    [Profiles.update] ({ commit }, { id, data }) {
+      return promiseWrapper(axios.patch('profiles/' + id, data), updated => {
+        commit(Profiles.update, updated)
+        return updated
+      })
+    },
     [Profiles.create] ({ commit }, form) {
-      return promiseWrapper(axios.post('profiles/create', form), data => commit(Profiles.create, data))
+      return promiseWrapper(axios.post('profiles/create', form), data => {
+        commit(Profiles.create, data)
+        return data
+      })
     },
     [Profiles.delete] ({ commit }, id) {
       return promiseWrapper(axios.delete(`profiles/${id}`), () => commit(Profiles.delete, id))
