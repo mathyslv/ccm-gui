@@ -20,8 +20,8 @@ export default {
       position: absolute;
       bottom: 0;
       left: 0;
-      width: calc(100% - 32px);
-      margin-left: 16px;
+      width: calc(100% - 16px);
+      margin-left: 8px;
       border-bottom: 1px solid var(--v-text-lighten3);
     }
   }

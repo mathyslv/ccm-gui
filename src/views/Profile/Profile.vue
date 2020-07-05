@@ -120,6 +120,7 @@ export default {
   watch: {
     profile: {
       immediate: true,
+      deep: true,
       handler: function (val) {
         this.setBreadcrumbs(['Profiles', (val ? val.name : '...')])
       }

@@ -17,7 +17,7 @@
     <v-divider class="mx-4 mb-4"/>
     <v-list>
       <v-list-item>
-        <BaseInput icon="mdi-account" label="Name" v-model="form.name" />
+        <BaseInput @keypress.enter="update" icon="mdi-account" label="Name" v-model="form.name" />
       </v-list-item>
       <v-divider class="mx-4 mb-4"/>
       <v-list-item>
@@ -27,7 +27,7 @@
           color="secondary"
           :loading="!!loading"
           :disabled="!form.name || form.name === profile.name"
-          @click="create"
+          @click="update"
         >
           Update
         </BaseActionButton>
@@ -58,24 +58,29 @@ export default {
       name: null
     }
   }),
-  mounted () {
-    if (this.profile) this.form.name = this.profile.name
-  },
   methods: {
     ...mapActions('profiles', { processUpdate: Profiles.update }),
     ...mapActions('notifications', [Notifications.addNotification]),
-    create () {
-      if (this.loading) return
+    update () {
+      if (this.loading || !this.form.name || this.form.name === this.profile.name) return
       this.loading = 'secondary'
       const data = { id: this.profile.id, data: { ...this.form } }
       this.processUpdate(data)
         .then(profile => {
           this.addNotification({ type: 'success', text: `Profile ${this.form.name} updated.` })
           this.loading = false
-          this.form.name = null
           this.$emit('input', false)
         })
-        .catch(e => { console.log(e.response) })
+        .catch(e => { console.log(e) })
+    }
+  },
+  watch: {
+    profile: {
+      immediate: true,
+      deep: true,
+      handler: function (profile) {
+        if (profile) this.form.name = profile.name
+      }
     }
   }
 }

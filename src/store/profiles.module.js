@@ -28,6 +28,17 @@ export default {
       data.roles = data.roles || []
       state.profiles.push(data)
     },
+    [Profiles.update] (state, data) {
+      const profile = state.profiles.find(p => p.id === data.id)
+      if (profile) {
+        for (const key in data) {
+          if (Object.prototype.hasOwnProperty.call(profile, key)) {
+            console.log('MAJ ' + key, data[key])
+            profile[key] = data[key]
+          }
+        }
+      }
+    },
     [Profiles.delete] (state, id) {
       const deletedIndex = state.profiles.findIndex(p => p.id === id)
       if (deletedIndex !== -1) state.profiles.splice(deletedIndex, 1)
